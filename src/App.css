@@ -1,0 +1,28 @@
+table {
+  /* border-collapse: collapse; */
+  table-layout: fixed;
+  width: 70%;
+  margin-top: 30px;
+   border: 1px solid #007FFF;
+  padding: 20px;
+  border-radius: 10px; 
+}
+
+
+
+
+th  {
+  border-right: 2px solid #007FFF;
+  margin-bottom: 10px;
+}
+
+thead th:nth-child(3)  {
+  border-right: none
+}
+
+/* thead th{
+  border-bottom: 2px solid #007FFF;
+} */
+thead {
+  border-bottom: 2px solid #007FFF;
+}
