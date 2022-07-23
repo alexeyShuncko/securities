@@ -3,8 +3,8 @@ import { ResponsiveLine } from '@nivo/line'
 
 
 
+const GrafAlternativ = (props) => {
 
-const Graf = (props) => {
 
     const grafS = new Date('07.01.2022')
     const grafPo = new Date('07.31.2022')
@@ -37,21 +37,36 @@ const Graf = (props) => {
 
     let timer = arrDates(grafS, grafPo)
 
-const color = props.stock.color
-   
-const data = props.stock.names.map(el=> {
-    return {
-        'id': el,
-        'data': timer.map(t => {
-            return {
-                'x': t.created,
-                'y': props.arr.filter(a => a.name === el).filter(b => b.date === t.created).length === 1
-                    ? props.arr.filter(a => a.name === el).filter(b => b.date === t.created)[0].price
-                    : 0
+    const color = props.stock.color
+
+    const data = props.stock.names.map((el, index) => {
+
+        const priceFunc = (arr, date) => {
+            arr.push({ date: date })
+            let index = arr.indexOf(arr
+            .sort((a, b) => Number(a.date.slice(0, 2)) - Number(b.date.slice(0, 2)))
+            .find(a=> a.date===date))
+            if (index > 0 && index !== arr.length -1) {
+                return arr[index - 1].price
             }
-        })
-    }
-})
+            else {
+                return 0
+            }
+        }
+
+        return {
+            'id': el,
+            'data': timer.map(t => {
+                return {
+                    'x': t.created,
+                    'y': props.arr.filter(a => a.name === el).filter(b => b.date === t.created).length === 1
+                        ? props.arr.filter(a => a.name === el).filter(b => b.date === t.created)[0].price
+                        : priceFunc(props.arr.filter(a => a.name === el), t.created)
+
+                }
+            })
+        }
+    })
 
 
 
@@ -94,7 +109,7 @@ const data = props.stock.names.map(el=> {
                     legendOffset: -60,
                     legendPosition: 'middle'
                 }}
-                 colors={color}
+                colors={color}
                 pointSize={5}
                 pointColor="black"
                 pointBorderWidth={3}
@@ -113,27 +128,27 @@ const data = props.stock.names.map(el=> {
                         // "background": "#ffffff",
                         // "textColor": "#333333",
                         "axis": {               //оси
-                           
+
                             "legend": {
                                 "text": {
                                     "fontSize": 18,
                                     "fill": "#000"
                                 }
                             },
-                          
+
                         },
-                       
+
                         "legends": {
-                     
+
                             "text": {
                                 "fontSize": 16,
                             },
-                     
+
                         },
-                       
+
                     }
                 }
-              
+
                 legends={[
                     {
                         anchor: 'top',
@@ -168,4 +183,4 @@ const data = props.stock.names.map(el=> {
     )
 
 }
-export default Graf;
+export default GrafAlternativ;
